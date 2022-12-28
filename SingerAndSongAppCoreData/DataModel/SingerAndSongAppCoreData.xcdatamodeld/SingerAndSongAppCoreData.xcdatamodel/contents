@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21512" systemVersion="22A400" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Singer" representedClassName=".Singer" syncable="YES" codeGenerationType="class">
+        <attribute name="name" attributeType="String"/>
+        <relationship name="songs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Songs"/>
+    </entity>
+    <entity name="Songs" representedClassName=".Songs" syncable="YES" codeGenerationType="class">
+        <attribute name="songName" attributeType="String"/>
+        <relationship name="singer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Singer"/>
+    </entity>
+</model>

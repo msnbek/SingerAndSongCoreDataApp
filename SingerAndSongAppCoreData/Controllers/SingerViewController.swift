@@ -7,13 +7,15 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
+class SingerViewController: UITableViewController {
+var singerArray = [Singer]()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
 
-
+    @IBAction func addButtonClicked(_ sender: UIBarButtonItem) {
+    }
+    
 }
 
