@@ -15,12 +15,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" id="P5r-im-y7W">
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="YOW-lG-U8x">
                             <rect key="frame" x="0.0" y="0.0" width="390" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
-                                <outlet property="delegate" destination="ZXl-vl-nNk" id="5NX-3M-o2H"/>
+                                <outlet property="delegate" destination="ZXl-vl-nNk" id="xB0-Vw-g1v"/>
                             </connections>
                         </searchBar>
                         <prototypes>
@@ -46,6 +46,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="searchBar" destination="YOW-lG-U8x" id="SlZ-7l-6aU"/>
                         <segue destination="UGi-G8-thw" kind="show" identifier="toSongVC" id="SDz-sR-Scv"/>
                     </connections>
                 </tableViewController>
@@ -61,9 +62,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="ulj-tb-tyu">
+                            <rect key="frame" x="0.0" y="0.0" width="390" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="UGi-G8-thw" id="fiV-rZ-MwL"/>
+                            </connections>
+                        </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="songCell" id="rAh-cW-GUJ">
-                                <rect key="frame" x="0.0" y="50" width="390" height="43.666667938232422"/>
+                                <rect key="frame" x="0.0" y="94" width="390" height="43.666667938232422"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rAh-cW-GUJ" id="8Hb-r6-LnL">
                                     <rect key="frame" x="0.0" y="0.0" width="390" height="43.666667938232422"/>
@@ -83,6 +92,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="searchBar" destination="ulj-tb-tyu" id="LIR-XL-juH"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Tx-Ow-RBD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

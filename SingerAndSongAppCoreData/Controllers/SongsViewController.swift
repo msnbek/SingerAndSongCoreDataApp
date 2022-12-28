@@ -11,6 +11,10 @@ import CoreData
 class SongsViewController: UITableViewController {
 var songsArray = [Songs]()
     
+    @IBOutlet weak var searchBar: UISearchBar!
+    
+    
+    
     var selectedSinger : Singer? {
         didSet{
             loadSong()
@@ -135,6 +139,47 @@ extension SongsViewController  {
         songsArray.remove(at: indexPath.row)
         saveSong()
      
+    }
+    
+    
+}
+
+extension SongsViewController: UISearchControllerDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let  context = appDelegate.persistentContainer.viewContext
+        
+        let request : NSFetchRequest<Songs> = Songs.fetchRequest()
+        
+        let predicate = NSPredicate(format: "songName CONTAINS[cd] %@", searchBar.text!)
+      
+     
+        request.sortDescriptors = [NSSortDescriptor(key: "songName", ascending: true)]
+  
+     loadSong(predicate: predicate)
+        self.tableView.reloadData()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count == 0 {
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            
+            let context = appDelegate.persistentContainer.viewContext
+            let request : NSFetchRequest<Songs> = Songs.fetchRequest()
+            do {
+                songsArray = try context.fetch(request)
+            }catch {
+                print("error \(error)")
+            }
+            self.tableView.reloadData()
+            
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+           
+        }
     }
     
     

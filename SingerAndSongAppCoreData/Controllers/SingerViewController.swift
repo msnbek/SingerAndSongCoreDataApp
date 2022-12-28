@@ -9,15 +9,23 @@ import UIKit
 import CoreData
 
 class SingerViewController: UITableViewController {
+    
+    
+    @IBOutlet weak var searchBar: UISearchBar!
+    
 var singerArray = [Singer]()
     override func viewDidLoad() {
+        
+        searchBar.delegate = self
         super.viewDidLoad()
-loadSinger()
-        
-        
+
+        loadSinger()
+   
         
     }
 
+    
+    //MARK: - Add Button Func
     @IBAction func addButtonClicked(_ sender: UIBarButtonItem) {
         var textField = UITextField()
         
@@ -58,6 +66,8 @@ loadSinger()
         
     }
     
+    
+    //MARK: - Save Func
     func saveSinger() {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -72,8 +82,8 @@ loadSinger()
         self.tableView.reloadData()
         
     }
-    
-    func loadSinger() {
+    //MARK: - Load Func
+    func loadSinger(predicate : NSPredicate? = nil) {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
@@ -89,7 +99,7 @@ loadSinger()
     }
     
 }
-
+//MARK: - TableView Methods
 extension SingerViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -127,5 +137,48 @@ extension SingerViewController {
             saveSinger()
         }
     }
+}
+
+extension SingerViewController: UISearchBarDelegate {
+    
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let    context = appDelegate.persistentContainer.viewContext
+        
+        let request : NSFetchRequest<Singer> = Singer.fetchRequest()
+        
+        let predicate = NSPredicate(format: "name CONTAINS[cd] %@", searchBar.text!)
+      
+     
+        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+  
+     loadSinger(predicate: predicate)
+        self.tableView.reloadData()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count == 0 {
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            
+            let context = appDelegate.persistentContainer.viewContext
+            let request : NSFetchRequest<Singer> = Singer.fetchRequest()
+            do {
+                singerArray = try context.fetch(request)
+            }catch {
+                print("error \(error)")
+            }
+            self.tableView.reloadData()
+            
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+           
+        }
+    }
+    
+    
+    
 }
 
