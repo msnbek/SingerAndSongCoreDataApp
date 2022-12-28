@@ -13,7 +13,7 @@ var songsArray = [Songs]()
     override func viewDidLoad() {
         super.viewDidLoad()
 
-       
+       loadFunc()
     }
     
 //MARK: - AddButton IBAction
@@ -42,6 +42,7 @@ var songsArray = [Songs]()
                 newSong.songName = textField.text
                 self.songsArray.append(newSong)
                 self.tableView.reloadData()
+                self.saveSong()
               
             }
      
@@ -60,11 +61,32 @@ var songsArray = [Songs]()
     
     
     
-    func saveSons() {
+    func saveSong() {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         
+        do{
+            try context.save()
+            print("saved")
+        }catch {
+            print("error saving \(error)")
+        }
+        
+        
+    }
+    
+    func loadFunc() {
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let request : NSFetchRequest<Songs> = Songs.fetchRequest()
+        
+        do {
+            songsArray = try context.fetch(request)
+        }catch {
+            print("load error \(error)")
+        }
         
         
     }
