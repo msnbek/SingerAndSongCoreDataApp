@@ -60,6 +60,7 @@
 		ED9407C5295C676D003F3D9A /* SingerAndSongAppCoreData */ = {
 			isa = PBXGroup;
 			children = (
+				ED9407D7295C676F003F3D9A /* Info.plist */,
 				ED9407DF295C694F003F3D9A /* Services */,
 				ED9407E3295C6A1C003F3D9A /* Controllers */,
 				ED9407E2295C6970003F3D9A /* DataModel */,
@@ -91,7 +92,6 @@
 			isa = PBXGroup;
 			children = (
 				ED9407CF295C676D003F3D9A /* SingerAndSongAppCoreData.xcdatamodeld */,
-				ED9407D7295C676F003F3D9A /* Info.plist */,
 			);
 			path = DataModel;
 			sourceTree = "<group>";

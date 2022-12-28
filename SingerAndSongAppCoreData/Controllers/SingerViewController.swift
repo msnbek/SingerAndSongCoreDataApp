@@ -15,6 +15,8 @@ var singerArray = [Singer]()
     }
 
     @IBAction func addButtonClicked(_ sender: UIBarButtonItem) {
+        
+        performSegue(withIdentifier: "toSongVC", sender: self)
     }
     
 }

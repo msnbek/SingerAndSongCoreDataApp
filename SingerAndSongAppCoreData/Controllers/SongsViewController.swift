@@ -16,30 +16,54 @@ var songsArray = [Songs]()
        
     }
     
-
+//MARK: - AddButton IBAction
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
-
+        var textField = UITextField()
         
-        let alert = UIAlertController(title: "Add New Singer", message: "Add Singer", preferredStyle: UIAlertController.Style.alert)
+        
+        let alert = UIAlertController(title: "Add New Song", message: "", preferredStyle: UIAlertController.Style.alert)
         let action = UIAlertAction(title: "Add", style: UIAlertAction.Style.default) { (action) in
             
             
-            let textField = UITextField()
+         
             
             if textField.text == "" {
                 
+                let alert = UIAlertController(title: "Error", message: "Please Fill The Blans", preferredStyle: UIAlertController.Style.actionSheet)
+                let action = UIAlertAction(title: "OK", style: UIAlertAction.Style.default)
+                alert.addAction(action)
+                self.present(alert, animated: true)
+         
+            }else {
                 
-                
-                
-                
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let context = appDelegate.persistentContainer.viewContext
+                let newSong = Songs(context: context)
+                newSong.songName = textField.text
+                self.songsArray.append(newSong)
+                self.tableView.reloadData()
+              
             }
+     
+        }
+        
+        alert.addTextField { (alertTextField) in
             
-            
+            alertTextField.placeholder = "Add new song"
+             textField = alertTextField
+       
         }
         alert.addAction(action)
         self.present(alert, animated: true)
+   
+    }
+    
+    
+    
+    func saveSons() {
         
-        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
         
         
         
