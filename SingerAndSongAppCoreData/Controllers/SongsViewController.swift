@@ -10,10 +10,17 @@ import CoreData
 
 class SongsViewController: UITableViewController {
 var songsArray = [Songs]()
+    
+    var selectedSinger : Singer? {
+        didSet{
+            loadSong()
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
 
-       loadFunc()
+      
+        
     }
     
 //MARK: - AddButton IBAction
@@ -40,6 +47,7 @@ var songsArray = [Songs]()
                 let context = appDelegate.persistentContainer.viewContext
                 let newSong = Songs(context: context)
                 newSong.songName = textField.text
+                newSong.singer = self.selectedSinger
                 self.songsArray.append(newSong)
                 self.tableView.reloadData()
                 self.saveSong()
@@ -60,7 +68,7 @@ var songsArray = [Songs]()
     }
     
     
-    
+    //MARK: - SaveSong Func
     func saveSong() {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -72,21 +80,30 @@ var songsArray = [Songs]()
         }catch {
             print("error saving \(error)")
         }
+        self.tableView.reloadData()
         
         
     }
-    
-    func loadFunc() {
+    //MARK: - LoadSong Func
+    func loadSong(predicate : NSPredicate? = nil) {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         let request : NSFetchRequest<Songs> = Songs.fetchRequest()
+        let singerPredicate = NSPredicate(format: "singer.name MATCHES %@", selectedSinger!.name!)
+        
+        if let addtionalPredicate = predicate {
+             request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [singerPredicate, addtionalPredicate])
+        }else {
+            request.predicate = singerPredicate
+        }
         
         do {
             songsArray = try context.fetch(request)
         }catch {
             print("load error \(error)")
         }
+        self.tableView.reloadData()
         
         
     }
@@ -106,8 +123,18 @@ extension SongsViewController  {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "songCell", for: indexPath)
         let newSong = songsArray[indexPath.row]
+       
         cell.textLabel?.text = newSong.songName
         return cell
+    }
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        
+        context.delete(songsArray[indexPath.row])
+        songsArray.remove(at: indexPath.row)
+        saveSong()
+     
     }
     
     
